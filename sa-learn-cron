@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+/opt/sa-learn/sa-learn.sh
+
