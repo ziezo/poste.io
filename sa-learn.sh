@@ -1,4 +1,9 @@
 #!/bin/bash
+###########################################################
+# Load all mails into Bayes database:
+# HAM = all boxes except inbox, trash, *spam*, *junk*
+# SPAM = boxes *spam*, *ham*
+###########################################################
 
 ###########################################################
 # CONFIG
@@ -25,10 +30,10 @@ mkdir -p $DBDIR
 ###sa-learn --dbpath "$DBDIR" --clear >> $LOG
 
 #HAM - TODO remove inbox from ham ?
-find $MAILDIR -type d \( -name "new" -or -name "cur" \) -not -name ".Trash" -not -iwholename "*junk*" -not -iwholename "*spam*" -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \; >> $LOG
+find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) -not -ipath "*trash*" -not \( -ipath "*spam*" -or -ipath "*junk*" \) -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \; >> $LOG
 
 #SPAM
-find "$MAILDIR" -type d \( -name "new" -or -name "cur" \) -not -wholename "*.Trash*" \( -wholename "*.Junk*" -or -wholename "*SPAM*" \) -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; >> $LOG
+find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) -not -ipath "*trash*" \( -ipath "*spam*" -or -ipath "*junk*" \) -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; >> $LOG
 
 #create journal if not exists
 touch "$DBDIR/bayes_journal"
