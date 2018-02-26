@@ -4,6 +4,8 @@ Modifications:
 - increase score for BAYES_99 and BAYES_999
 - show test scores in X-Spam-Status header
 
+For a docker-compose example see [ziezo/docker-server](https://github.com/ziezo/docker-server)
+
 # bekce/poste.io
 Memory efficient (230-250 mb) complete multi-domain email server solution.
 
