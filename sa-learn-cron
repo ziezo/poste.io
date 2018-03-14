@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-/opt/sa-learn/sa-learn.sh
+/opt/sa-learn/sa-learn.sh >>/data/log/sa-learn.log 2>&1
 

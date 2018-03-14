@@ -1,4 +1,4 @@
-# poste.io:1.0.7 is based on Debian stretch/sid
+#poste.io:1.0.7 is based on ubuntu zesty (/etc/debian_verson = stretch/sid)
 FROM analogic/poste.io:1.0.7
 
 #disable clamav

@@ -9,9 +9,6 @@
 # CONFIG
 ###########################################################
 
-#logging on host
-LOG=/data/log/sa-learn.log
-
 #mail root directory 
 MAILDIR=/data/domains
 
@@ -20,24 +17,24 @@ DBDIR=/tmp/.spamassassin
 
 ###########################################################
 
-echo "====== `date` $THIS $* started" >> $LOG
+echo "====== `date` $THIS $* started" 
 
 #create db path if not existing
 mkdir -p $DBDIR
 
 #DELETE BAYES DATABASE
-###echo "deleting database" >> $LOG
-###sa-learn --dbpath "$DBDIR" --clear 2>&1 >> $LOG
+###echo "deleting database" 
+###sa-learn --dbpath "$DBDIR" --clear 
 
 #HAM - TODO remove inbox from ham ?
 find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) \
   -not -ipath "*trash*" -not \( -ipath "*spam*" -or -ipath "*junk*" \) \
-  -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \; 2>&1 >> $LOG 
+  -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \;  
 
 #SPAM
 find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) \
   -not -ipath "*trash*" \( -ipath "*spam*" -or -ipath "*junk*" \) \
-  -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; 2>&1 >> $LOG
+  -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; 
 
 #create journal if not exists
 touch "$DBDIR/bayes_journal"
@@ -46,8 +43,8 @@ touch "$DBDIR/bayes_journal"
 chown -R smtpd.smtpd "$DBDIR"
 
 #DUMP
-sa-learn --dbpath "$DBDIR" --dump magic 2>&1 >> $LOG
+sa-learn --dbpath "$DBDIR" --dump magic 
 
-echo "====== `date` $THIS $* completed" >> $LOG
+echo "====== `date` $THIS $* completed"
 
 
