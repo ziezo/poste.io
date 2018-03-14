@@ -30,10 +30,14 @@ mkdir -p $DBDIR
 ###sa-learn --dbpath "$DBDIR" --clear 2>&1 >> $LOG
 
 #HAM - TODO remove inbox from ham ?
-find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) -not -ipath "*trash*" -not \( -ipath "*spam*" -or -ipath "*junk*" \) -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \; 2>&1 >> $LOG 
+find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) \
+  -not -ipath "*trash*" -not \( -ipath "*spam*" -or -ipath "*junk*" \) \
+  -exec echo "HAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --ham "{}" \; 2>&1 >> $LOG 
 
 #SPAM
-find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) -not -ipath "*trash*" \( -ipath "*spam*" -or -ipath "*junk*" \) -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; >> 2>&1 $LOG
+find "$MAILDIR" -type d \( -path "*/.*/cur" -or -path "*/.*/new" \) \
+  -not -ipath "*trash*" \( -ipath "*spam*" -or -ipath "*junk*" \) \
+  -exec echo "SPAM:{}" \; -exec sa-learn --dbpath "$DBDIR" --spam "{}" \; 2>&1 >> $LOG
 
 #create journal if not exists
 touch "$DBDIR/bayes_journal"
