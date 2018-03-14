@@ -1,3 +1,4 @@
+# poste.io:1.0.7 is based on Debian stretch/sid
 FROM analogic/poste.io:1.0.7
 
 #disable clamav
@@ -18,3 +19,5 @@ COPY sa-learn-cron /etc/cron.daily/sa-learn-cron
 #increase scores of bayes_99 and _999 filter, adapt X-Spam headers
 COPY local.cf /etc/spamassassin/local.cf
 
+#symlink nano
+RUN ln -s /bin/nano /bin/vi
